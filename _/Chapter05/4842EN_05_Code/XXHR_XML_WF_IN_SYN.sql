@@ -1,0 +1,1 @@
+CREATE OR REPLACE SYNONYM APPS.xxhr_xml_wf_in  FOR XXHR.xxhr_xml_wf_in;

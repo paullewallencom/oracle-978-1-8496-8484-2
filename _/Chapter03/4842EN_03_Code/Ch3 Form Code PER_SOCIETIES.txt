@@ -1,0 +1,113 @@
+PACKAGE PER_SOCIETIES IS
+
+    PROCEDURE INSERT_ROW;
+    PROCEDURE UPDATE_ROW;
+    PROCEDURE LOCK_ROW;
+    PROCEDURE DELETE_ROW;
+    PROCEDURE DESC_FLEX(event VARCHAR2);
+    
+END;
+
+PACKAGE BODY PER_SOCIETIES IS
+
+    PROCEDURE INSERT_ROW IS
+    BEGIN
+				xxhr_per_societies_pvt.insert_row(	p_SOCIETY_ID => :per_societies.society_id,
+																						p_CODE => :per_societies.CODE, 
+																						p_SUBS_PERIOD => :per_societies.SUBS_PERIOD,  
+																						p_DATE_END => :per_societies.DATE_END ,
+																						p_DATE_START => :per_societies.DATE_START, 
+																						p_SUBS_HOLD => :per_societies.SUBS_HOLD,
+																						p_SUBS_AMOUNT => :per_societies.SUBS_AMOUNT,
+																						p_SUBS_TOTAL => :per_societies.SUBS_TOTAL, 
+																						p_PERSON_ID => :per_societies.PERSON_ID,
+																						p_ATTRIBUTE_CATEGORY => :per_societies.ATTRIBUTE_CATEGORY, 
+																						p_ATTRIBUTE1 => :per_societies.ATTRIBUTE1,  
+																						p_ATTRIBUTE2 => :per_societies.ATTRIBUTE2,  
+																						p_ATTRIBUTE3 => :per_societies.ATTRIBUTE3 , 
+																						p_ATTRIBUTE4 => :per_societies.ATTRIBUTE4, 
+																						p_ATTRIBUTE5 => :per_societies.ATTRIBUTE5,
+																						p_ATTRIBUTE6 => :per_societies.ATTRIBUTE6 ,
+																						p_ATTRIBUTE7 => :per_societies.ATTRIBUTE7,
+																						p_ATTRIBUTE8 => :per_societies.ATTRIBUTE8 ,
+																						p_ATTRIBUTE9 => :per_societies.ATTRIBUTE9 , 
+																						p_ATTRIBUTE10 => :per_societies.ATTRIBUTE10 , 
+																						p_ATTRIBUTE11 => :per_societies.ATTRIBUTE11 ,
+																						p_ATTRIBUTE12 => :per_societies.ATTRIBUTE12 , 
+																						p_ATTRIBUTE13 => :per_societies.ATTRIBUTE13 ,   
+																						p_ATTRIBUTE14 => :per_societies.ATTRIBUTE14 ,  
+																						p_ATTRIBUTE15 => :per_societies.ATTRIBUTE15 ,    
+																						p_ATTRIBUTE16 => :per_societies.ATTRIBUTE16 ,
+																						p_ATTRIBUTE17 => :per_societies.ATTRIBUTE17 ,
+																						p_ATTRIBUTE18 => :per_societies.ATTRIBUTE18 ,
+																						p_ATTRIBUTE19 => :per_societies.ATTRIBUTE19, 
+																						p_ATTRIBUTE20 => :per_societies.ATTRIBUTE20 ,
+																						p_CREATION_DATE => :per_societies.CREATION_DATE ,    
+																						p_CREATED_BY => :per_societies.CREATED_BY,
+																						p_LAST_UPDATE_DATE => :per_societies.LAST_UPDATE_DATE,
+																						p_LAST_UPDATED_BY => :per_societies.LAST_UPDATED_BY ,
+																						p_LAST_UPDATE_LOGIN => :per_societies.LAST_UPDATE_LOGIN);
+    END;
+  
+    PROCEDURE UPDATE_ROW IS
+    BEGIN
+				xxhr_per_societies_pvt.update_row(  p_SOCIETY_ID => :per_societies.society_id,
+																						p_CODE => :per_societies.CODE, 
+																						p_SUBS_PERIOD => :per_societies.SUBS_PERIOD,  
+																						p_DATE_END => :per_societies.DATE_END ,
+																						p_DATE_START => :per_societies.DATE_START, 
+																						p_SUBS_HOLD => :per_societies.SUBS_HOLD,
+																						p_SUBS_AMOUNT => :per_societies.SUBS_AMOUNT,
+																						p_SUBS_TOTAL => :per_societies.SUBS_TOTAL, 
+																						p_PERSON_ID => :per_societies.PERSON_ID,
+																						p_ATTRIBUTE_CATEGORY => :per_societies.ATTRIBUTE_CATEGORY, 
+																						p_ATTRIBUTE1 => :per_societies.ATTRIBUTE1,  
+																						p_ATTRIBUTE2 => :per_societies.ATTRIBUTE2,  
+																						p_ATTRIBUTE3 => :per_societies.ATTRIBUTE3 , 
+																						p_ATTRIBUTE4 => :per_societies.ATTRIBUTE4, 
+																						p_ATTRIBUTE5 => :per_societies.ATTRIBUTE5,
+																						p_ATTRIBUTE6 => :per_societies.ATTRIBUTE6 ,
+																						p_ATTRIBUTE7 => :per_societies.ATTRIBUTE7,
+																						p_ATTRIBUTE8 => :per_societies.ATTRIBUTE8 ,
+																						p_ATTRIBUTE9 => :per_societies.ATTRIBUTE9 , 
+																						p_ATTRIBUTE10 => :per_societies.ATTRIBUTE10 , 
+																						p_ATTRIBUTE11 => :per_societies.ATTRIBUTE11 ,
+																						p_ATTRIBUTE12 => :per_societies.ATTRIBUTE12 , 
+																						p_ATTRIBUTE13 => :per_societies.ATTRIBUTE13 ,   
+																						p_ATTRIBUTE14 => :per_societies.ATTRIBUTE14 ,  
+																						p_ATTRIBUTE15 => :per_societies.ATTRIBUTE15 ,    
+																						p_ATTRIBUTE16 => :per_societies.ATTRIBUTE16 ,
+																						p_ATTRIBUTE17 => :per_societies.ATTRIBUTE17 ,
+																						p_ATTRIBUTE18 => :per_societies.ATTRIBUTE18 ,
+																						p_ATTRIBUTE19 => :per_societies.ATTRIBUTE19, 
+																						p_ATTRIBUTE20 => :per_societies.ATTRIBUTE20 ,
+																						p_CREATION_DATE => :per_societies.CREATION_DATE ,    
+																						p_CREATED_BY => :per_societies.CREATED_BY,
+																						p_LAST_UPDATE_DATE => :per_societies.LAST_UPDATE_DATE,
+																						p_LAST_UPDATED_BY => :per_societies.LAST_UPDATED_BY ,
+																						p_LAST_UPDATE_LOGIN => :per_societies.LAST_UPDATE_LOGIN);
+    END;
+  
+    PROCEDURE LOCK_ROW IS
+    BEGIN
+    	
+    	null;
+    END;
+  
+    PROCEDURE DELETE_ROW IS
+    BEGIN
+				xxhr_per_societies_pvt.delete_row(P_SOCIETY_ID => :per_societies.society_id);
+    END;
+    
+    PROCEDURE DESC_FLEX(event VARCHAR2) IS
+    BEGIN
+      IF event = 'WHEN-NEW-FORM-INSTANCE' THEN
+      	fnd_descr_flex.define( block => 'PER_SOCIETIES'
+      	                     , field => 'DESC_FLEX'
+      	                     , appl_short_name => 'XXHR'
+      	                     , desc_flex_name => 'XXHR_PER_SOCIETIES');
+      END IF;	
+    	
+    END;
+
+END;

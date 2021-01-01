@@ -1,0 +1,33 @@
+  PROCEDURE SUBS_TAB_CNV(event VARCHAR2) IS
+
+  v_target_canvas VARCHAR2(100) := name_in('system.tab_new_page');
+  v_prev_page     VARCHAR2(100) := name_in('system.tab_previous_page');
+  v_item          VARCHAR2(100);
+
+  BEGIN
+   
+    IF (event = 'WHEN-TAB-PAGE-CHANGED') THEN
+          validate(item_scope);
+          if not form_success then
+               --
+               -- Revert tab to prior value and exit
+               --
+               set_canvas_property('SUBS_TAB_CNV', topmost_tab_page, v_prev_page);
+               return;
+          else
+             --
+             -- Move to first item on each tab
+             --
+             if v_target_canvas = 'SOC_TAB_PG' then
+               v_item := ('PER_SOCIETIES.NAME');
+             elsif v_target_canvas = 'SUBS_TAB_PG' then
+               v_item := ('PER_SUBS.NAME');
+             elsif v_target_canvas = 'CS_GRID_PG' then
+               v_item := ('CS_GRID.ITEM_GRID');  
+               cs_grid.populate_grid('CS_GRID.ITEM_GRID');             
+             end if;
+             GO_ITEM(v_item);
+          end if;
+     END IF;
+
+  END SUBS_TAB_CNV;

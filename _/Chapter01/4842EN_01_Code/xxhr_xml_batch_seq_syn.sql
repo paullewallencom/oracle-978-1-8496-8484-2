@@ -1,0 +1,1 @@
+CREATE OR REPLACE SYNONYM APPS.xxhr_xml_batch_seq FOR XXHR.xxhr_xml_batch_seq;

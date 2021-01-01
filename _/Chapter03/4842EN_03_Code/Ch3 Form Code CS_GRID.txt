@@ -1,0 +1,32 @@
+PACKAGE CS_GRID IS
+
+  /* Package specification */
+  PROCEDURE init_grid (p_grid IN VARCHAR2);
+  
+  PROCEDURE populate_grid (p_grid IN VARCHAR2);
+END;
+
+PACKAGE BODY CS_GRID IS
+
+  /* Procedure to initialize the grid.
+     The data set is the name of the spreadtable we defined in EBS */
+  PROCEDURE init_grid (p_grid IN VARCHAR2) IS
+    v_data_set VARCHAR2(100) := 'XXHR_SOCIETIES_DS';
+  BEGIN
+  	jtf_grid.init(p_grid, v_data_set);
+  END;
+  
+  /* Procedure to populate the grid.
+     We need to set the WHERE clause of the grid to associate the data 
+     to the employee in the master block. Then we call the procedure to 
+     populate the grid */
+  PROCEDURE populate_grid (p_grid IN VARCHAR2) IS
+    w_clause VARCHAR2(1000);
+  BEGIN
+    jtf_grid.removeAllBindVariables(p_grid);  
+    jtf_grid.setBindVariable(p_grid,':PERSON_ID', NAME_IN('PERMGR_DTLS.EMP_PERSON_ID'));  
+    w_clause := ('PERSON_ID = :PERSON_ID');	
+    jtf_grid.setCharProperty(p_grid, JTF_GRID_PROPERTY.WHERE_CLAUSE, w_clause);
+    jtf_grid.populate(p_grid);  
+  END;
+END;

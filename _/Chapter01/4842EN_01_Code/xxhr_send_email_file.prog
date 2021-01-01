@@ -1,0 +1,137 @@
+#!/bin/sh
+#------------------------------------------------------------------------------#
+# Filename:    xx_send_email_file.prog		                                   #
+#                                                                              #
+# Description: Send a file to the specified email address   				   #
+#                                                                              #
+# Amendments:                                                                  #
+#                                                                              #
+# Amended By   Date       Version  Reason                                      #
+# ------------ ---------  -------  ------                                      #
+# A Penver     11-JAN-12  1.0      Initial Version                             #
+#                                                                              #
+#                                                                              #
+#------------------------------------------------------------------------------#
+#
+# $1 = username/password (default parameter)
+# $2 = user_id (default parameter)
+# $3 = user_name (default parameter)
+# $4 = request_id (default parameter)
+# $5 = Email Subject
+# $6 = Recipient Email Address
+# $7 = File Name
+# $8 = Directory
+# $9 = Send From Address
+
+# echo param1=$1 param2=$2 param3=$3 param4=$4 param5=$5 param6=$6 param7=$7 param8=$8 param9=$9
+
+#-------------------------------------------------------
+# Retrieve the command line parameters
+#-------------------------------------------------------
+
+v_email_subject=$5
+v_emailaddress=$6
+v_filename=$7
+v_filedir=$8
+v_send_from=$9
+
+echo "Email Subject : "$v_email_subject
+echo "Email Address : "$v_emailaddress
+echo "File Name     : "$v_filename
+echo "Directory     : "$v_filedir
+echo "Send From     : "$v_send_from
+
+#-------------------------------------------------------
+# Initialise variables
+#-------------------------------------------------------
+v_custtop=$XXHR_TOP
+v_err=0
+v_file=
+v_date=
+v_exist=
+TMPFILE=mailed$$.txt
+
+#-------------------------------------------------------
+# Check that all variables have been specified
+#-------------------------------------------------------
+if [ -z $v_emailaddress ]
+then
+  echo "No email address has been specified. Please enter a valid email address"
+  exit 1
+fi
+
+#-------------------------------------------------------
+# Check if custom top is null, if so exit the process
+#-------------------------------------------------------
+if [ -z $v_custtop ]
+then
+  echo "Unable to retrive the value for XXHR_TOP, please contact your system administrator"
+  exit 1
+fi
+
+#-------------------------------------------------------
+# Check that the directories used by the process exist
+#-------------------------------------------------------
+if [ ! -d $v_custtop ]
+then
+  echo "Directory $custtop does not exist, please contact your system administrator"
+  exit 1
+elif [ ! -d $v_filedir ]
+then
+  echo "Directory $v_filedir does not exist, please contact your system administrator"
+  exit 1
+fi
+
+#-------------------------------------------------------
+# Check to see if the specified file exists
+#-------------------------------------------------------
+if [ ! -z $v_filename ]
+then
+  v_exist=`ls $v_filedir/$v_filename 2>/dev/null |wc -l`
+  v_file=$v_filename
+  
+  if [ $v_exist -eq 0 ]
+  then
+     echo "Specified file does not exist, please specify a valid filename."
+     exit 1
+  fi
+else
+  echo "File Name not provided, exiting process"
+  exit 1
+fi
+
+#-------------------------------------------------------
+# Move to the MPS data directory
+#-------------------------------------------------------
+cd $v_filedir
+v_loc=`pwd`
+#echo "Location      : "$v_loc
+#echo "File          : "$v_file
+
+#-----------------------------------------------------
+# Use Send mail to email the file to the specified 
+# address
+#-----------------------------------------------------
+echo "+---------------------------------------------------------------------------+"
+echo "Sending File  : "$v_file
+
+echo `pwd`
+cat $v_file  
+echo $v_email_subject
+echo $v_emailaddress
+
+#--------------------------------------------------------
+# SEND EMAIL
+#--------------------------------------------------------
+
+uuencode $v_file $v_file | mailx -s "$v_email_subject" $v_emailaddress
+
+#---------------------------
+# Retrieve exit code
+#---------------------------
+retcode=$?
+
+echo "+---------------------------------------------------------------------------+"
+echo "XX File Sent"
+
+exit $v_err

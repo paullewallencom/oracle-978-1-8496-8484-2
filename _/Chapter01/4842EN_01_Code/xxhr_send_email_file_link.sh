@@ -1,0 +1,1 @@
+ln -s $FND_TOP/bin/fndcpesr xxhr_send_email_file

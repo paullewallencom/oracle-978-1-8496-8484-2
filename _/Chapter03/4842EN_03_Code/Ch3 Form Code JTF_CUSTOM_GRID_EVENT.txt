@@ -1,0 +1,19 @@
+PROCEDURE JTF_CUSTOM_GRID_EVENT (gridName in varchar2, 
+                                 event_type in varchar2) IS
+  row_number NUMBER;
+  v_name     VARCHAR2(200);
+
+BEGIN
+	
+  /* First we capture the event 
+     Then we get the row number of the record in the grid.
+     The we capture the value of the item in the grid
+     We then show a message with the name of the item clicked on */
+     
+  IF event_type = JTF_GRID_EVENTS.HYPERLINK_EVENT THEN
+      row_number := jtf_grid.getintproperty(gridName, jtf_grid_property.rownumber);
+      v_name := jtf_grid.getColumnCharValue(gridName, row_number, 'NAME');
+      fnd_message.debug('Triggered a hyperlink event for '||v_name);
+  END IF;
+      
+END;
